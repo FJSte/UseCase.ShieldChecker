@@ -1,0 +1,29 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write
+  contents: read
+  
+jobs:
+  deploy_infrastructure:
+    name: Build
+    runs-on: windows-latest
+
+    steps:
+      # Checkout code
+    - uses: actions/checkout@main
+    
+    - name: Build
+      shell: pwsh
+      run: |
+        .\Invoke-Build.ps1
+    
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "Deploy/Latest"
+        tag: ${{ github.ref }}
+        name: "ShieldChecker ${{ github.ref }}"
+        bodyFile: "CHANGELOG.MD"
