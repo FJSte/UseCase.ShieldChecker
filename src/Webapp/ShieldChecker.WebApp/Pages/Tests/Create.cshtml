@@ -1,0 +1,50 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Tests.CreateModel
+
+@{
+    ViewData["Title"] = "Create Test";
+}
+
+<h1>Create new Test</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" id="mainForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TestVm.Name" class="control-label"></label>
+                <input asp-for="TestVm.Name" class="form-control" />
+                <span asp-validation-for="TestVm.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestVm.MitreTechnique" class="control-label"></label>
+                <input asp-for="TestVm.MitreTechnique" class="form-control" placeholder="T1510.1" />
+                <span asp-validation-for="TestVm.MitreTechnique" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestVm.Description" class="control-label"></label>
+                <input asp-for="TestVm.Description" class="form-control" />
+                <span asp-validation-for="TestVm.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestVm.ExpectedAlertTitle" class="control-label"></label>
+                <input asp-for="TestVm.ExpectedAlertTitle" class="form-control" />
+                <span asp-validation-for="TestVm.ExpectedAlertTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_MonacoEditorLoader");}
+}
+

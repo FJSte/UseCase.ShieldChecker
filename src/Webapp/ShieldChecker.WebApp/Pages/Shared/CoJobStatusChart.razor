@@ -1,0 +1,70 @@
+﻿@page "/job-status"
+@using ShieldChecker.WebApp.Models.Db
+@using ShieldChecker.WebApp.Helper
+@using PSC.Blazor.Components.Chartjs
+@using PSC.Blazor.Components.Chartjs.Enums
+@using PSC.Blazor.Components.Chartjs.Models
+@using PSC.Blazor.Components.Chartjs.Models.Common
+@using PSC.Blazor.Components.Chartjs.Models.Bar
+@using PSC.Blazor.Components.Chartjs.Models.Bubble
+@using PSC.Blazor.Components.Chartjs.Models.Doughnut
+@using PSC.Blazor.Components.Chartjs.Models.Line
+@using PSC.Blazor.Components.Chartjs.Models.Pie
+@using PSC.Blazor.Components.Chartjs.Models.Polar
+@using PSC.Blazor.Components.Chartjs.Models.Radar
+@using PSC.Blazor.Components.Chartjs.Models.Scatter
+
+<div class="card">
+    <h2 class="card-header">
+        Job Status (Past 30 days)
+    </h2>
+    <div class="card-body">
+        <Chart Config="_config1" @ref="_chart1"></Chart>
+
+    </div>
+</div>
+
+@code {
+
+    private SystemStatus Status;
+    private DoughnutChartConfig? _config1;
+    private Chart? _chart1;
+
+    private readonly ShieldChecker.WebApp.ShieldCheckerContext _context;
+    public CoJobStatusChart(ShieldCheckerContext context)
+    {
+        _context = context;
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var JobStatus = _context.TestJobs.Where(JobResult => JobResult.Created > DateTime.UtcNow.AddDays(-30)).GroupBy(JobResult => JobResult.Status).Select(JobResult => new { Status = JobResult.Key, Count = JobResult.Count() }).ToList();
+        _config1 = new DoughnutChartConfig()
+            {
+                Options = new Options()
+                {
+                    Responsive = true,
+                    MaintainAspectRatio = false,
+                    Plugins = new Plugins()
+                    {
+                        Legend = new Legend()
+                        {
+                            Display = true,
+                            Position = LegendPosition.Left
+                        }
+                    }
+                }
+            };
+
+        _config1.Data.Labels = JobStatus.Select(j => Enum.GetName(typeof(JobStatus), j.Status)).ToList<string>();
+
+        _config1.Data.Datasets.Add(new DoughnutDataset()
+            {
+                Label = "Jobs",
+                Data = JobStatus.Select(j => (decimal?)Convert.ToDecimal(j.Count)).ToList(),
+                BackgroundColor = ChartSettings.ChartColors,
+                HoverOffset = 4
+            });
+    }
+}

@@ -1,0 +1,108 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Tests.IndexModel
+
+@{
+    ViewData["Title"] = "Tests";
+}
+
+<h1>Tests</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                OS
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].MitreTechnique)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].Modified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].Enabled)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Test) {
+            <tr>
+                <td>
+                    @if (((int)item.OperatingSystem) == 0){
+                        <i class="fa-brands fa-windows"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-brands fa-linux"></i>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MitreTechnique)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayTextFor(modelItem => item.Enabled)
+                </td>
+                <td>
+                    @if (item.ReadOnly == null || !item.ReadOnly.Value) {
+                        <a asp-page="./Edit" asp-route-id="@item.ID"><i class="fa-regular fa-pen-to-square" data-toggle="tooltip" title="Edit"></i></a>
+                        <a asp-page="./History" asp-route-id="@item.ID"><i class="fa-solid fa-clock-rotate-left" data-toggle="tooltip" title="History"></i></a>
+                    } else {
+                        <a asp-page="./Details" asp-route-id="@item.ID"><i class="fa-regular fa-eye" data-toggle="tooltip" title="View"></i></a>
+                    }
+                    <a asp-page-handler="Schedule" asp-route-id="@item.ID"><i class="fa-solid fa-play" data-toggle="tooltip" title="Schedule Test"></i></a>
+                    @if (item.ReadOnly == null || !item.ReadOnly.Value)
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.ID"><i class="fa-regular fa-trash-can" data-toggle="tooltip" title="Delete"></i></a>
+                    }
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.Test.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Test.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Test.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Test.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

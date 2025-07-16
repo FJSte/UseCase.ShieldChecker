@@ -1,0 +1,66 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Tests.HistoryModel
+
+@{
+    ViewData["Title"] = "Version History";
+}
+
+<h1>Version History of Test '@Html.DisplayFor(model => model.Test[0].Name)'</h1>
+
+<!-- The form that remove buttons will use -->
+<form id="restore" method="post"></form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].Modified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].Enabled)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].ExpectedAlertTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Test[0].ScriptTest)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Test) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Modified)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayTextFor(modelItem => item.Enabled)
+            </td>
+            <td>
+                @Html.DisplayTextFor(modelItem => item.ExpectedAlertTitle)
+            </td>
+                <td>
+                    @Html.DisplayTextFor(modelItem => item.ScriptTest)
+                </td>
+            <td>
+                    <button type="submit"
+                            name="id"
+                            value="@item.ID"
+                            form="restore"
+                            asp-page-handler="Restore"
+                            asp-route-datetime="@item.Modified.ToString("u")"
+                            asp-route-id="@item.ID"
+                            class="btn btn-danger btn-rounded btn-sm my-0">
+                        Restore
+                    </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

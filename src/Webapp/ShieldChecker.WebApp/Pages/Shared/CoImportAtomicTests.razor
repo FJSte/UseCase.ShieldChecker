@@ -1,0 +1,54 @@
+﻿@page "/import-atomic-tests"
+@using ShieldChecker.WebApp.Services
+@inject IAzureFunctionService AzFunService
+<p>
+    Import status: @if (isRunning)
+    {
+        <i class="fa-solid fa-spinner fa-spin" style="margin-right:5px;"></i>
+    } @status
+
+</p>
+<p>@result</p>
+<p>
+    <button class="btn btn-primary" disabled=@isSuccess @onclick="ImportTestDefinitions">@buttonText</button>
+</p>
+
+@code {
+    private string status = "Idle";
+    private bool isSuccess = false;
+    private bool isRunning = false;
+    private string buttonText = "Start Import";
+    private string result = "";
+
+    private async Task ImportTestDefinitions()
+    {
+        status = "Start Import";
+        try
+        {
+            var r = AzFunService.ImportAtomicTests();
+            isRunning = true;
+            status = "Importing ...";
+            isSuccess = true;
+            StateHasChanged();
+            await r;
+
+            if (r.Result.IsSuccessStatusCode)
+            {
+                status = "Import sucessfully finished!";
+                buttonText = "Already imported";
+                isRunning = false;
+                result = await r.Result.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                status = $"Import failed! Statuscode: {r.Result.StatusCode}";
+                isSuccess = false;
+                isRunning = false;
+            }
+        } catch (Exception e){
+            status = $"Import failed! Exception: {e.Message}";
+            isSuccess = false;
+            isRunning = false;
+        }
+    }
+}

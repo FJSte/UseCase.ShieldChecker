@@ -1,0 +1,21 @@
+﻿@page
+@model IndexModel
+@using ShieldChecker.WebApp.Pages.Shared
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Shield Checker Dashboard</h1>
+    <div class="row">
+        <div class="col-sm-6">
+            <component type="typeof(CoSystemStatus)" render-mode="ServerPrerendered" />
+            <component type="typeof(CoJobStatusTimelineChart)" render-mode="ServerPrerendered" />
+            <component type="typeof(CoJobCostsChart)" render-mode="ServerPrerendered" />
+        </div>
+        <div class="col-sm-6">
+            <component type="typeof(CoJobStatusChart)" render-mode="ServerPrerendered" />
+            <component type="typeof(CoTestResultChart)" render-mode="ServerPrerendered" />
+        </div>
+    </div>
+</div>

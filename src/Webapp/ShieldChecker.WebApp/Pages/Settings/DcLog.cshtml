@@ -1,0 +1,19 @@
+﻿@page
+@using ShieldChecker.WebApp.Pages.Shared
+@model ShieldChecker.WebApp.Pages.Settings.DcLogModel
+@{
+    ViewData["Title"] = "Domain Controller Status and Log";
+}
+<h1>Domain Controller Status and Log</h1>
+<hr />
+<component type="typeof(CoSystemStatusWizard)" render-mode="ServerPrerendered" />
+<hr />
+<h2>Domain Controller Log</h2>
+<Monaco-Editor language="plaintext" readonly="true" value="@Html.DisplayFor(model => model.SystemStatus.DomainControllerLog)" width='100%'
+               height='200px' id="DCLog"></Monaco-Editor>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+}

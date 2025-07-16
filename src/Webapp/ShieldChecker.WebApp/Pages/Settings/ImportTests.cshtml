@@ -1,0 +1,16 @@
+﻿@page
+@using ShieldChecker.WebApp.Pages.Shared
+@model ShieldChecker.WebApp.Pages.Settings.ImportTestsModel
+@{
+    ViewData["Title"] = "Import Tests";
+}
+<h1>Import Tests</h1>
+<hr />
+<p>This page allows importing tests from external test libraries:</p>
+<hr />
+<h3>Import Atomic Red Team Test</h3>
+<div class="form-group">
+    Atomic Red team provides as open source tests for security controls which you can import if you wish. This can also help you to get started and get inspiration.
+
+    <component type="typeof(CoImportAtomicTests)" render-mode="ServerPrerendered" />
+</div>

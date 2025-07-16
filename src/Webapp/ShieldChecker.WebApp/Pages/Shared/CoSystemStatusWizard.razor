@@ -1,0 +1,51 @@
+﻿@page "/system-status"
+@using ShieldChecker.WebApp.Models.Db
+@using ShieldChecker.WebApp.Helper
+
+<p>
+    Domain Controller Status: @Status.DomainControllerStatus.ToString().FromCamelCase() <a href="/Settings/DcLog"><i class="fas fa-info-circle" title="@Status.DomainControllerLog"></i></a>
+    @if (Status.DomainControllerStatus == DomainControllerStatus.Error || Status.DomainControllerStatus == DomainControllerStatus.Initialized)
+    {
+
+        <span>
+            &nbsp;
+            (<a @onclick="ResetDC">Reset</a>)
+        </span>
+    }
+    @if (!String.IsNullOrWhiteSpace(ErrorMessage))
+    {
+        <p class="text-danger">@ErrorMessage</p>
+    }
+</p>
+
+
+
+@code {
+
+    private SystemStatus Status;
+    private String ErrorMessage = "";
+    private readonly ShieldChecker.WebApp.ShieldCheckerContext _context;
+    public CoSystemStatusWizard(ShieldCheckerContext context)
+    {
+        _context = context;
+        Status = _context.SystemStatus.First() ?? new SystemStatus() { DomainControllerLog = "", DomainControllerStatus = DomainControllerStatus.NotStarted, ID = 1, IsFirstRunCompleted = false, WebAppVersion = "0.0.0" };
+        
+    }
+
+    private async Task ResetDC()
+    {
+        
+        try
+        {
+            Status.DomainControllerStatus = DomainControllerStatus.ResetRequested;
+            _context.SystemStatus.Update(Status);
+            await _context.SaveChangesAsync();
+            ErrorMessage = "";
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
+}

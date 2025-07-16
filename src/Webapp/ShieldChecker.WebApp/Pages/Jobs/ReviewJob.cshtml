@@ -1,0 +1,48 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Jobs.ReviewModel
+
+@{
+    ViewData["Title"] = "Review Job";
+}
+
+<h1>Review Job @Html.DisplayFor(model => model.ReviewTestJob.ID) - @Html.DisplayFor(model => model.ReviewTestJob.UseCaseName)</h1>
+
+<hr />
+@if (Model.ReviewTestJob.WorkerRemoteIP != null)
+{
+    <a asp-page="./DownloadRdp" asp-route-id="@Model.ReviewTestJob.ID" target="_blank">Start RDP</a> <span> | </span>
+}
+<a asp-page="./Details" asp-route-id="@Model.ReviewTestJob.ID">Back to Job</a>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ReviewTestJob.ID" />
+            
+            <div class="form-group">
+                
+                <label asp-for="ReviewTestJob.Result" class="control-label"></label>
+                <select asp-for="ReviewTestJob.Result" asp-items="Html.GetEnumSelectList<Models.Db.JobResult>()" class="form-control"></select>
+                <span asp-validation-for="ReviewTestJob.Result" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                
+                <label asp-for="ReviewTestJob.ReviewResult" class="control-label"></label>
+                <input asp-for="ReviewTestJob.ReviewResult" class="form-control" />
+                <span asp-validation-for="ReviewTestJob.ReviewResult" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Finish Review" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

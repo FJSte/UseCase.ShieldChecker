@@ -1,0 +1,48 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-group, .control-label {
+    margin-bottom: 5px;
+}
+
+.line-breaks {
+    white-space: pre-line;
+}
+main {
+    padding-top: 1.5rem;
+}
+.wizardstep {
+    padding-top:2rem;
+}
+.wizardstep btn {
+    text-align: center;
+}
+.wizardstep h2 {
+    padding-top:1rem;
+}
+.wizardstep h3 {
+    padding-top: 1rem;
+}
+.wizardstep label {
+    padding-top: 0.5rem;
+}

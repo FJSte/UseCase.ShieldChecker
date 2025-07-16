@@ -1,0 +1,151 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Jobs.DetailsModel
+
+@{
+    ViewData["Title"] = "Job Details";
+}
+
+<h1>Job @Html.DisplayFor(model => model.TestJob.ID) - @Html.DisplayFor(model => model.TestJob.UseCase.Name)</h1>
+<hr />
+<div>
+    @if (Model.TestJob.Status == Models.Db.JobStatus.ReviewPending)
+    {
+        <a asp-page="./ReviewJob" asp-route-id="@Model.TestJob.ID">
+            Review
+        </a>
+        <span> | </span>
+    }
+    @if (Model.TestJob.Status != Models.Db.JobStatus.Canceled && Model.TestJob.Status != Models.Db.JobStatus.Completed && Model.TestJob.Status != Models.Db.JobStatus.Error)
+    {
+        <a asp-page="./CancelJob" asp-route-id="@Model.TestJob.ID">
+            Cancel
+        </a>
+        <span> | </span>
+    }
+    @if (Model.TestJob.Status == Models.Db.JobStatus.Completed || Model.TestJob.Status == Models.Db.JobStatus.Error)
+    {
+        <a asp-page="./RerunJob" asp-route-id="@Model.TestJob.ID">
+            Rerun
+        </a>
+        <span> | </span>
+    }
+    @if (Model.TestJob.WorkerRemoteIP != null && Model.TestJob.UseCase.OperatingSystem == Models.Db.OperatingSystem.Windows && (Model.TestJob.Status == Models.Db.JobStatus.ReviewPending || Model.TestJob.Status == Models.Db.JobStatus.WaitingForMDE || Model.TestJob.Status == Models.Db.JobStatus.WaitingForDetection))
+    {
+        <a asp-page="./DownloadRdp" asp-route-id="@Model.TestJob.ID" target="_blank">Start RDP</a>
+        <span> | </span>
+    }
+    <a asp-page="./Edit" asp-route-id="@Model.TestJob.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.UseCase)
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-page="./../Tests/Edit" asp-route-id="@Model.TestJob.UseCaseID">
+                @Html.DisplayFor(model => model.TestJob.UseCase.Name)
+            </a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.Created)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.Created)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.Modified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.Modified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.WorkerStart)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.WorkerStart)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.WorkerEnd)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.WorkerEnd)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.Status)
+            @if (Model.TestJob.Status == Models.Db.JobStatus.ReviewPending)
+            {
+                <a asp-page="./ReviewJob" asp-route-id="@Model.TestJob.ID">
+                    &nbsp;Review
+                </a>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.Result)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.Result)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.WorkerName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.WorkerName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.DefenderMachineId)
+        </dt>
+        <dd class="col-sm-10">
+            @if (!String.IsNullOrWhiteSpace(Model.TestJob.DefenderMachineId))
+            {
+                @Html.Raw("<a href=\"https://security.microsoft.com/machines/v2/" + Model.TestJob.DefenderMachineId + "\" target=\"_blank\">Open Microsoft Defender</a>")
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.WorkerIP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.WorkerIP)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.WorkerRemoteIP)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.WorkerRemoteIP)
+            @if (Model.TestJob.WorkerRemoteIP != null && (Model.TestJob.Status == Models.Db.JobStatus.ReviewPending || Model.TestJob.Status == Models.Db.JobStatus.WaitingForMDE || Model.TestJob.Status == Models.Db.JobStatus.WaitingForDetection))
+            {
+                <a asp-page="./DownloadRdp" asp-route-id="@Model.TestJob.ID" target="_blank">Start RDP</a>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.TestUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.TestUser)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.TestOutput)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.TestOutput, "MultiLineCodeView")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.SchedulerLog)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.SchedulerLog,"MultiLineCodeView")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TestJob.DetectedAlerts)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TestJob.DetectedAlerts, "MultiLineCodeView")
+        </dd>
+    </dl>
+    
+    
+</div>

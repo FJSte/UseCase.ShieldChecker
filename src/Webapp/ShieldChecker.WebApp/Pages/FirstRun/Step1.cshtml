@@ -1,0 +1,53 @@
+﻿@page
+@model Step1
+@{
+    ViewData["Title"] = "First run Wizard";
+}
+
+
+<div>
+    <h1>First Run Wizard</h1>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+    </div>
+    <div class="wizardstep">
+        <h2>Set initial system settings (Step 1)</h2>
+        <p>On this page you can configure important information which is required during to execute the tests.</p>
+        
+        <form method="post">
+            <h3>Microsoft Defender for Endpoint</h3>
+            <div class="alert alert-primary" role="alert">
+                <p>The Onboarding Scripts can be downloaded from <a href="https://security.microsoft.com/securitysettings/endpoints/onboarding">Microsoft Security Portal</a>. We recommend to use on: </p><ul><li>Windows the VDI Onboarding Script</li><li>Linux the Phyton script</li></ul>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstRun.MDEWindowsOnboardingScript" class="form-label"></label>
+                <input type="hidden" asp-for="FirstRun.MDEWindowsOnboardingScript" class="form-control" />
+                <Monaco-Editor value-for="FirstRun_MDEWindowsOnboardingScript" language="cmd" value="@Html.DisplayFor(model => model.FirstRun.MDEWindowsOnboardingScript)" width='100%'
+                                height='50px' id="MDEWindowsOnboardingScript"></Monaco-Editor>
+                <span asp-validation-for="FirstRun.MDEWindowsOnboardingScript" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstRun.MDELinuxOnboardingScript" class="form-label"></label>
+                <input type="hidden" asp-for="FirstRun.MDELinuxOnboardingScript" class="form-control" />
+                <Monaco-Editor value-for="FirstRun_MDELinuxOnboardingScript" language="cmd" value="@Html.DisplayFor(model => model.FirstRun.MDELinuxOnboardingScript)" width='100%'
+                                height='50px' id="MDELinuxOnboardingScript"></Monaco-Editor>
+                <span asp-validation-for="FirstRun.MDELinuxOnboardingScript" class="text-danger"></span>
+            </div>
+            <h3>Microsoft Defender for Identity</h3>
+            <div class="alert alert-primary" role="alert">
+                <p>Configure automatic Activation of MDI on MDE enrolled devices: https://security.microsoft.com/</p>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save and next" class="btn btn-primary" />
+            </div>
+                   
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+}

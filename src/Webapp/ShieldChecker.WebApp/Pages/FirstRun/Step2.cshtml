@@ -1,0 +1,93 @@
+﻿@page
+@model Step2
+@{
+    ViewData["Title"] = "First run Wizard";
+}
+
+
+<div>
+    <h1>First Run Wizard</h1>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+    </div>
+    <div class="wizardstep">
+        <h2>Check Microsoft Graph & MDE Permissions (Step 2)</h2>
+
+        <h3>Microsoft Graph</h3>
+        <div class="form-group">
+            @if (Model.FirstRun.IsMsGraphOK)
+            {
+                <div class="alert alert-success" role="alert">
+                    Microsoft Graph permissions are set correctly.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    Microsoft Graph permissions are not set correctly. 
+                </div>
+                <ul>
+                    @foreach (string scope in Model.FirstRun.MsGraphScopes)
+                    {
+                        <li>Set scope: @scope</li>
+                    }
+                    @foreach (string scope in Model.FirstRun.RequiredMsGraphScopes.Where(r => !Model.FirstRun.MsGraphScopes.Contains(r)))
+                    {
+                        <li>Required and missing scope: @scope</li>
+                    }
+                </ul>
+            }
+        </div>
+        <h3>Microsoft Defender for Endpoint</h3>
+        <div class="form-group">
+            @if (Model.FirstRun.IsMsMdeOK)
+            {
+                <div class="alert alert-success" role="alert">
+                    Microsoft Defender for Endpoint permissions are set correctly.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">
+                    Microsoft Defender for Endpoint permissions are not set correctly.
+                </div>
+                <ul>
+                    @foreach (string scope in Model.FirstRun.MsMdeScopes)
+                    {
+                        <li>Set scope: @scope</li>
+                    }
+                    @foreach (string scope in Model.FirstRun.RequiredMsMdeScopes.Where(r => !Model.FirstRun.MsMdeScopes.Contains(r)))
+                    {
+                        <li>Required and missing scope: @scope</li>
+                    }
+                </ul>
+            }
+        </div>
+        @if (!(Model.FirstRun.IsMsGraphOK && Model.FirstRun.IsMsMdeOK))
+        {
+            <div class="form-group">
+                <h3>Remediation Script</h3>
+                <Monaco-Editor language="powershell" value="@Html.DisplayFor(model => model.FirstRun.RemediationScript)" width='100%'
+                height='50px'></Monaco-Editor>
+            </div>
+        }
+        <div class="form-group">
+             
+            @if (Model.FirstRun.IsMsGraphOK && Model.FirstRun.IsMsMdeOK)
+            {
+                <a onclick="javascript:window.location.reload();" class="btn btn-secondary" style="margin-top:1rem;">Check again</a>
+                <a href="/FirstRun/Step3" class="btn btn-primary" style="margin-top:1rem;">Continue to next step</a>
+            } else {
+                <a onclick="javascript:window.location.reload();" class="btn btn-primary" style="margin-top:1rem;">Check again</a>
+                <a href="/FirstRun/Step3" class="btn btn-primary" style="margin-top:1rem;">Skip and go to next step (Not Recommended)</a>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+}

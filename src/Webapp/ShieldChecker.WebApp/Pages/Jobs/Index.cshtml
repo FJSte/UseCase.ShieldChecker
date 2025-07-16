@@ -1,0 +1,102 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Jobs.IndexModel
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<h1>Jobs</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].UseCase)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].Modified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].WorkerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TestJob[0].Result)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TestJob)
+        {
+            <tr>
+
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.ID">Job 
+                        @Html.DisplayFor(modelItem => item.ID)
+                     </a>
+                </td>
+                <td>
+                     @Html.DisplayFor(modelItem => item.UseCase.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Modified)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Result)
+                </td>
+
+
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.ID"><i class="fa fa-eye"></i></a>
+                    @if(item.Status == Models.Db.JobStatus.ReviewPending){
+                        <a asp-page="./ReviewJob" asp-route-id="@item.ID">
+                            <i class="fa-solid fa-comments"></i>
+
+                        </a>
+                    }
+                    @if (item.Status != Models.Db.JobStatus.Canceled && item.Status != Models.Db.JobStatus.Completed && item.Status != Models.Db.JobStatus.Error)
+                    {
+                        <a asp-page="./CancelJob" asp-route-id="@item.ID">
+                            <i class="fa-solid fa-ban"></i>
+
+                        </a>
+                    }
+                    @if (item.Status == Models.Db.JobStatus.Completed || item.Status == Models.Db.JobStatus.Error)
+                    {
+                        <a asp-page="./RerunJob" asp-route-id="@item.ID">
+                            <i class="fa-solid fa-repeat"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.TestJob.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.TestJob.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.TestJob.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.TestJob.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

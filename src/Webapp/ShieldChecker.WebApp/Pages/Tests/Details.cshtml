@@ -1,0 +1,113 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Tests.DetailsModel
+
+@{
+    ViewData["Title"] = "Test Details";
+}
+
+<h1>Details - @Html.DisplayFor(model => model.Test.Name)</h1>
+<hr />
+<div>
+    <a asp-page-handler="Schedule" asp-route-id="@Model.Test.ID">Schedule</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.MitreTechnique)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.MitreTechnique)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.Description,"MultiLineView")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.Created)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.Created)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.CreatedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.CreatedBy.DisplayName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.Modified)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.Modified)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ModifiedBy)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.ModifiedBy.DisplayName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ExpectedAlertTitle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.ExpectedAlertTitle)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ScriptPrerequisites)
+        </dt>
+        <dd class="col-sm-10">
+            <Monaco-Editor language="powershell" readonly="true" value="@Html.DisplayFor(model => model.Test.ScriptPrerequisites)" width='100%'
+                           height='50px' id="ScriptPrerequisitesMonacoEditor"></Monaco-Editor>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ScriptTest)
+        </dt>
+        <dd class="col-sm-10">
+            <Monaco-Editor language="powershell" readonly="true" value="@Html.DisplayFor(model => model.Test.ScriptTest)" width='100%'
+                           height='50px' id="ScriptTestMonacoEditor"></Monaco-Editor>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ScriptCleanup)
+        </dt>
+        <dd class="col-sm-10">
+            <Monaco-Editor language="powershell" readonly="true" value="@Html.DisplayFor(model => model.Test.ScriptCleanup)" width='100%'
+                           height='50px' id="ScriptCleanupMonacoEditor"></Monaco-Editor>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.OperatingSystem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.OperatingSystem)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ExecutorSystemType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.ExecutorSystemType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Test.ExecutorUserType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Test.ExecutorUserType)
+        </dd>
+    </dl>
+</div>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+
+}

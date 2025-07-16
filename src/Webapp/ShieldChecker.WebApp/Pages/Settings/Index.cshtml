@@ -1,0 +1,143 @@
+﻿@page
+@model SettingsModel
+@inject IConfiguration Configuration
+@using Microsoft.Extensions.Configuration
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<h1>Settings</h1>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Settings.ID" />
+            <div class="form-group">
+                <label asp-for="Settings.MaxWorkerCount" class="form-label"></label>
+                <input asp-for="Settings.MaxWorkerCount" class="form-control" />
+                <span asp-validation-for="Settings.MaxWorkerCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.JobTimeout" class="form-label"></label>
+                <input asp-for="Settings.JobTimeout" class="form-control" />
+                <span asp-validation-for="Settings.JobTimeout" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check form-switch" style="margin-top:auto;">
+                    <label asp-for="Settings.JobReview" class="form-check-label"></label>
+                    <input asp-for="Settings.JobReview" type="checkbox" role="switch" class="form-check-input" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.WorkerVMSize" class="form-label"></label>
+                <input asp-for="Settings.WorkerVMSize" class="form-control" />
+                <span asp-validation-for="Settings.WorkerVMSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.WorkerVMWindowsImage" class="form-label"></label>
+                <select asp-for="Settings.WorkerVMWindowsImage" class="form-control">
+                    <option value="MicrosoftWindowsServer:WindowsServer:2022-datacenter-g2:latest">Windows Server 2022</option>
+                    <option value="MicrosoftWindowsDesktop:Windows-11:win11-21h2-ent:latest">Windows 11</option>
+                </select>
+                <span asp-validation-for="Settings.WorkerVMWindowsImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.WorkerVMLinuxImage" class="form-label"></label>
+                <select asp-for="Settings.WorkerVMLinuxImage" class="form-control">
+                    <option value="RedHat:RHEL:8-lvm-gen2:latest">Red Hat Enterprise Linux 8</option>
+                    <option value="Canonical:ubuntu-24_04-lts:server:latest">Ubuntu 24.04 LTS</option>
+                </select>
+                <span asp-validation-for="Settings.WorkerVMLinuxImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.DcVMSize" class="form-label"></label>
+                <input asp-for="Settings.DcVMSize" class="form-control" />
+                <span asp-validation-for="Settings.DcVMSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.DcVMImage" class="form-label"></label>
+                <select asp-for="Settings.DcVMImage" class="form-control">
+                    <option value="MicrosoftWindowsServer:WindowsServer:2022-datacenter-g2:latest">Windows Server 2022</option>
+                </select>
+                <span asp-validation-for="Settings.DcVMImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Local Admin Username</label>
+                <input readonly value="@Configuration["AdminUsername"]" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Local Admin Domain Controller and Domain Admin Password</label>
+                <input id="pw_dc" readonly type="password" value="@Configuration["AdminDcPassword"]" class="form-control" />
+                <a id="reveal_pw_dc">Reveal/Hide password</a>
+                <script>
+                    const button_dc = document.querySelector("#reveal_pw_dc");
+                    const input_dc = document.querySelector("#pw_dc");
+
+                    button_dc.addEventListener("click", () => {
+                      if (input_dc.getAttribute("type") === "password") {
+                        input_dc.setAttribute("type", "text");
+                      } else {
+                        input_dc.setAttribute("type", "password");
+                      }
+                    });
+                </script>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Local Admin Worker Password</label>
+                <input id="pw_worker" readonly type="password" value="@Configuration["AdminWorkerPassword"]" class="form-control" />
+                <a id="reveal_pw_worker">Reveal/Hide password</a>
+                <script>
+                    const button_worker = document.querySelector("#reveal_pw_worker");
+                    const input_worker = document.querySelector("#pw_worker");
+
+                    button_worker.addEventListener("click", () => {
+                      if (input_worker.getAttribute("type") === "password") {
+                        input_worker.setAttribute("type", "text");
+                      } else {
+                        input_worker.setAttribute("type", "password");
+                      }
+                    });
+                </script>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.MDEWindowsOnboardingScript" class="form-label"></label>
+                <input type="hidden" asp-for="Settings.MDEWindowsOnboardingScript" class="form-control" />
+                <Monaco-Editor value-for="Settings_MDEWindowsOnboardingScript" language="cmd" value="@Html.DisplayFor(model => model.Settings.MDEWindowsOnboardingScript)" width='100%'
+                               height='50px' id="MDEWindowsOnboardingScript"></Monaco-Editor>
+                <span asp-validation-for="Settings.MDEWindowsOnboardingScript" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.MDELinuxOnboardingScript" class="form-label"></label>
+                <input type="hidden" asp-for="Settings.MDELinuxOnboardingScript" class="form-control" />
+                <Monaco-Editor value-for="Settings_MDELinuxOnboardingScript" language="cmd" value="@Html.DisplayFor(model => model.Settings.MDELinuxOnboardingScript)" width='100%'
+                               height='50px' id="MDELinuxOnboardingScript"></Monaco-Editor>
+                <span asp-validation-for="Settings.MDELinuxOnboardingScript" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.DomainFQDN" class="form-label"></label>
+                <input asp-for="Settings.DomainFQDN" class="form-control" />
+                <span asp-validation-for="Settings.DomainFQDN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Settings.DomainControllerName" class="form-label"></label>
+                <input asp-for="Settings.DomainControllerName" class="form-control" />
+                <span asp-validation-for="Settings.DomainControllerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+}

@@ -1,0 +1,28 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Jobs.CancelJobModel
+
+@{
+    ViewData["Title"] = "Cancel Job";
+}
+
+<h1>Cancel Job @Html.DisplayFor(model => model.TestJob.ID) - @Html.DisplayFor(model => model.TestJob.UseCase.Name)</h1>
+<hr />
+<a asp-page="./Details" asp-route-id="@Model.TestJob.ID">Back to Job</a>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TestJob.ID" />
+            
+            Would you like to cancel this job?
+            <div class="form-group">
+                <input type="submit" value="Cancel Job" class="btn btn-primary" /> <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

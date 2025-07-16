@@ -1,0 +1,60 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Settings.AutoScheduler.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details AutoSchedule</h1>
+<hr />
+<div>
+    
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.Enabled)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.Enabled)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.NextExecution)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.NextExecution)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.Type)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.FilterRandomCount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.FilterRandomCount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.FilterOperatingSystem)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.FilterOperatingSystem)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AutoSchedule.FilterExecution)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AutoSchedule.FilterExecution)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.AutoSchedule.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

@@ -1,0 +1,75 @@
+﻿@page
+@using ShieldChecker.WebApp.Models.Db
+@model ShieldChecker.WebApp.Pages.Settings.AutoScheduler.CreateModel
+
+        @{
+        ViewData["Title"] = "Create";
+        }
+
+<h1>Create new AutoSchedule</h1>
+
+    <hr />
+    <div class="row">
+    <div class="col-md-12">
+    <form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.Name" class="control-label"></label>
+                <input asp-for="AutoSchedule.Name" class="form-control" />
+                <span asp-validation-for="AutoSchedule.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.Enabled" class="form-check-label"></label>
+                <div class="form-check form-switch" style="margin-top:auto;">
+                    <input asp-for="AutoSchedule.Enabled" type="checkbox" role="switch" class="form-check-input" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.NextExecution" class="control-label"></label>
+                <input asp-for="AutoSchedule.NextExecution" class="form-control" />
+                <span asp-validation-for="AutoSchedule.NextExecution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.Type" class="control-label"></label>
+                <select asp-for="AutoSchedule.Type" asp-items="Html.GetEnumSelectList<Models.Db.AutoScheduleType>()" class="form-control"></select>
+                <span asp-validation-for="AutoSchedule.Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.FilterRandomCount" class="control-label"></label>
+                <input asp-for="AutoSchedule.FilterRandomCount" class="form-control" />
+                <span asp-validation-for="AutoSchedule.FilterRandomCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.FilterOperatingSystem" class="control-label"></label>
+                <select asp-for="AutoSchedule.FilterOperatingSystem" asp-items="Html.GetEnumSelectList<Models.Db.OperatingSystem>()" class="form-control"><option value="">No Filter</option></select>
+                <span asp-validation-for="AutoSchedule.FilterOperatingSystem" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.FilterExecution" class="control-label"></label>
+                <select asp-for="AutoSchedule.FilterExecution" asp-items="Html.GetEnumSelectList<Models.Db.FilterExecution>()" class="form-control"></select>
+                <span asp-validation-for="AutoSchedule.FilterExecution" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AutoSchedule.TestDefinitions" class="control-label"></label>
+                <select asp-for="AutoSchedule.TestDefinitions" asp-items="Model.TestDefinitionOptions" class="form-control choices-multiple" multiple="multiple">
+                </select>
+                <span asp-validation-for="AutoSchedule.TestDefinitions" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_ChoicesLoader");
+    }
+}

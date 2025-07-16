@@ -1,0 +1,42 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.FirstRun.Step3Model
+@using ShieldChecker.WebApp.Pages.Shared
+@{
+    ViewData["Title"] = "First run Wizard";
+}
+
+
+<div>
+    <h1>First Run Wizard</h1>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+    </div>
+    <div class="wizardstep">
+        <h2>Get started with tests (Step 3)</h2>
+
+        <h3>Import Atomic Red Team Test</h3>
+        <div class="form-group">
+            Atomic Red team provides as open source tests for security controls which you can import if you wish. This can also help you to get started and get inspiration.
+
+            <component type="typeof(CoImportAtomicTests)" render-mode="ServerPrerendered" />
+        </div>
+        
+        <h3>System status</h3>
+        <div class="form-group">
+            Check if the Domain Controller is provisioned or if provisioning is still running.
+
+            <component type="typeof(CoSystemStatusWizard)" render-mode="ServerPrerendered" />
+        </div>
+        <form method="post">
+        <div class="form-group">
+                <input type="submit" value="Save and close Wizard" class="btn btn-primary" />
+        </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

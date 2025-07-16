@@ -1,0 +1,120 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Tests.EditModel
+
+@{
+    ViewData["Title"] = "Edit Test";
+}
+
+<h1>Edit - @Html.DisplayFor(model => model.Test.Name)</h1>
+<hr />
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Test.ID" />
+            <div class="row">
+                <div class="form-group col-md-10">
+                    <label asp-for="Test.Name" class="control-label"></label>
+                    <input asp-for="Test.Name" class="form-control" />
+                    <span asp-validation-for="Test.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2" style="display:flex;">
+                    <div class="form-check form-switch" style="margin-top:auto;">
+                        <label asp-for="Test.Enabled" class="form-check-label"></label>
+                        <input asp-for="Test.Enabled" type="checkbox" role="switch" class="form-check-input" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.MitreTechnique" class="control-label"></label>
+                <input asp-for="Test.MitreTechnique" class="form-control" placeholder="T1510.1" />
+                <span asp-validation-for="Test.MitreTechnique" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.Description" class="control-label"></label>
+                <input asp-for="Test.Description" class="form-control" />
+                <span asp-validation-for="Test.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.ExpectedAlertTitle" class="control-label"></label>
+                <input asp-for="Test.ExpectedAlertTitle" class="form-control" />
+                <span asp-validation-for="Test.ExpectedAlertTitle" class="text-danger"></span>
+            </div>
+            <h2 class="mt-4">Execution Context</h2>
+           
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Test.ExecutorSystemType" class="control-label"></label>
+                    <select asp-for="Test.ExecutorSystemType" asp-items="Html.GetEnumSelectList<Models.Db.ExecutorSystemType>()" class="form-select"></select>
+
+                    <span asp-validation-for="Test.ExecutorSystemType" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Test.ExecutorUserType" class="control-label"></label>
+                    <select asp-for="Test.ExecutorUserType" asp-items="Html.GetEnumSelectList<Models.Db.ExecutorUserType>()" class="form-select"></select>
+
+                    <span asp-validation-for="Test.ExecutorUserType" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Test.OperatingSystem" class="control-label"></label>
+                    <select asp-for="Test.OperatingSystem" asp-items="Html.GetEnumSelectList<Models.Db.OperatingSystem>()" class="form-select"></select>
+
+                    <span asp-validation-for="Test.OperatingSystem" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6" style="display:flex;">
+                    <div class="form-check form-switch" style="margin-top:auto;">
+                        <label asp-for="Test.ElevationRequired" class="form-check-label"></label>
+                        <input asp-for="Test.ElevationRequired" type="checkbox" role="switch" class="form-check-input" />
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="mt-4">Scripts</h2>
+            <div class="alert alert-primary" role="alert">
+                The folders 'c:\AtomicRedTeam' and 'c:\TestEngine' are excluded from virus scan and can be used to store malicious files without beeing deleted before the test is executed.
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.ScriptPrerequisites" class="control-label"></label>
+                <input asp-for="Test.ScriptPrerequisites" type="hidden" class="form-control" />
+                <Monaco-Editor value-for="Test_ScriptPrerequisites" language="powershell" value="@Html.DisplayFor(model => model.Test.ScriptPrerequisites)" width='100%'
+                               height='50px' id="ScriptPrerequisitesMonacoEditor"></Monaco-Editor>
+                <span asp-validation-for="Test.ScriptPrerequisites" class="text-danger"></span>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.ScriptTest" class="control-label"></label>
+                <input asp-for="Test.ScriptTest" type="hidden" class="form-control" />
+                <Monaco-Editor value-for="Test_ScriptTest" language="powershell" value="@Html.DisplayFor(model => model.Test.ScriptTest)" width='100%'
+                              height='50px' id="ScriptTestMonacoEditor"></Monaco-Editor>
+                <span asp-validation-for="Test.ScriptTest" class="text-danger"></span>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Test.ScriptCleanup" class="control-label"></label>
+                <input asp-for="Test.ScriptCleanup" type="hidden" class="form-control" />
+                <Monaco-Editor value-for="Test_ScriptCleanup" language="powershell" value="@Html.DisplayFor(model => model.Test.ScriptCleanup)" width='100%'
+                               height='50px' id="ScriptCleanupMonacoEditor"></Monaco-Editor>
+                <span asp-validation-for="Test.ScriptCleanup" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <input type="submit" value="Save" onclick="window.get" class="btn btn-secondary" /> <input type="submit" value="Save and Close" onclick="window.get" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_MonacoEditorLoader");
+    }
+
+}

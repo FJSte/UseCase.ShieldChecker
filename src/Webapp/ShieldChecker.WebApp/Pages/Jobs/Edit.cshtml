@@ -1,0 +1,96 @@
+﻿@page
+@model ShieldChecker.WebApp.Pages.Jobs.EditModel
+
+@{
+    ViewData["Title"] = "Job Edit";
+}
+
+<h1>Edit (Debug Only)</h1>
+
+<h4>TestJob</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TestJob.ID" />
+            <div class="form-group">
+                
+                <label asp-for="TestJob.WorkerStart" class="control-label"></label>
+                <input asp-for="TestJob.WorkerStart" class="form-control" />
+                <span asp-validation-for="TestJob.WorkerStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.WorkerEnd" class="control-label"></label>
+                <input asp-for="TestJob.WorkerEnd" class="form-control" />
+                <span asp-validation-for="TestJob.WorkerEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.Status" class="control-label"></label>
+                <select asp-for="TestJob.Status" asp-items="Html.GetEnumSelectList<Models.Db.JobStatus>()" class="form-control"></select>
+                <span asp-validation-for="TestJob.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.Result" class="control-label"></label>
+                <select asp-for="TestJob.Result" asp-items="Html.GetEnumSelectList<Models.Db.JobResult>()" class="form-control"></select>
+                <span asp-validation-for="TestJob.Result" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.WorkerName" class="control-label"></label>
+                <input asp-for="TestJob.WorkerName" class="form-control" />
+                <span asp-validation-for="TestJob.WorkerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.WorkerIP" class="control-label"></label>
+                <input asp-for="TestJob.WorkerIP" class="form-control" />
+                <span asp-validation-for="TestJob.WorkerIP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.WorkerRemoteIP" class="control-label"></label>
+                <input asp-for="TestJob.WorkerRemoteIP" class="form-control" />
+                <span asp-validation-for="TestJob.WorkerRemoteIP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.TestUser" class="control-label"></label>
+                <input asp-for="TestJob.TestUser" class="form-control" />
+                <span asp-validation-for="TestJob.TestUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.TestOutput" class="control-label"></label>
+                <input asp-for="TestJob.TestOutput" class="form-control" />
+                <span asp-validation-for="TestJob.TestOutput" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.SchedulerLog" class="control-label"></label>
+                <input asp-for="TestJob.SchedulerLog" class="form-control" />
+                <span asp-validation-for="TestJob.SchedulerLog" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <label asp-for="TestJob.DetectedAlerts" class="control-label"></label>
+                <input asp-for="TestJob.DetectedAlerts" class="form-control" />
+                <span asp-validation-for="TestJob.DetectedAlerts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

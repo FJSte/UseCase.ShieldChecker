@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="baseVISION AG">
+    <title>@ViewData["Title"] - ShieldChecker.WebApp</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/dark.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ShieldChecker.WebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="~/lib/monaco-editor/min/vs/editor/editor.main.css" />
+    <link rel="icon" type="image/png" href="/img/logo/icon.png" />
+    <base href="~/" />
+    <component type="typeof(Microsoft.AspNetCore.Components.Web.HeadOutlet)" render-mode="ServerPrerendered" />
+</head>
+<body data-theme="dark"
+      data-layout="fluid"
+      data-sidebar-position="left"
+      data-sidebar-layout="default">
+    <div id="page-container">
+        <div id="content-wrap">
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container">
+                        <a class="navbar-brand" asp-area="" asp-page="/Index"><img src="/img/logo/logo-horizontal-small-negative.png" style="max-height:80px;" alt="ShieldChecker Logo" /></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Tests/Index">Tests</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Jobs/Index">Jobs</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Administration
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Settings/Index">System Settings</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Settings/AutoScheduler/Index">Scheduler</a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Settings/DcLog">Domain Controller Log</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Settings/ImportTests">Import Tests</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </nav>
+            </header>
+            <div class="container">
+
+                <main role="main" class="pb-4">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2025 - baseVISION &copy; ShieldChecker - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
+    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script src="~/js/datatables.js" asp-append-version="true"></script>
+    <script src="~/js/fullcalendar.js" asp-append-version="true"></script>
+    <script src="~/_framework/blazor.server.js"></script>
+    <script src="~/_content/PSC.Blazor.Components.Chartjs/lib/Chart.js/chart.js"></script>
+    <script src="~/_content/PSC.Blazor.Components.Chartjs/Chart.js" type="module"></script>
+    <script src="~/_content/PSC.Blazor.Components.Chartjs/lib/chartjs-plugin-datalabels/chartjs-plugin-datalabels.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

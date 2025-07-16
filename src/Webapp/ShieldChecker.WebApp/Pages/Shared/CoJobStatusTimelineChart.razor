@@ -1,0 +1,113 @@
+﻿@page "/job-status-timeline"
+@using ShieldChecker.WebApp.Models.Db
+@using ShieldChecker.WebApp.Helper
+@using PSC.Blazor.Components.Chartjs
+@using PSC.Blazor.Components.Chartjs.Enums
+@using PSC.Blazor.Components.Chartjs.Models
+@using PSC.Blazor.Components.Chartjs.Models.Common
+@using PSC.Blazor.Components.Chartjs.Models.Bar
+@using PSC.Blazor.Components.Chartjs.Models.Bubble
+@using PSC.Blazor.Components.Chartjs.Models.Doughnut
+@using PSC.Blazor.Components.Chartjs.Models.Line
+@using PSC.Blazor.Components.Chartjs.Models.Pie
+@using PSC.Blazor.Components.Chartjs.Models.Polar
+@using PSC.Blazor.Components.Chartjs.Models.Radar
+@using PSC.Blazor.Components.Chartjs.Models.Scatter
+
+<div class="card">
+    <h2 class="card-header">
+        Job History
+    </h2>
+    <div class="card-body">
+        <Chart Config="_config1" @ref="_chart1"></Chart>
+
+    </div>
+</div>
+
+@code {
+
+
+    private BarChartConfig? _config1;
+    private Chart? _chart1;
+
+    private readonly ShieldChecker.WebApp.ShieldCheckerContext _context;
+    public CoJobStatusTimelineChart(ShieldCheckerContext context)
+    {
+        _context = context;
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var JobStatusTotal = _context.TestJobs.Where(JobResult => JobResult.Created > DateTime.UtcNow.AddDays(-30)).GroupBy(JobResult => JobResult.Created.Date).Select(JobResult => new { Date = JobResult.Key, Count = JobResult.Count() }).ToList();
+        var JobStatusSuccess = _context.TestJobs.Where(JobResult => JobResult.Created > DateTime.UtcNow.AddDays(-30) && JobResult.Status == JobStatus.Completed && (JobResult.Result == Models.Db.JobResult.Success || JobResult.Result == Models.Db.JobResult.SuccessWithOtherDetection)).GroupBy(JobResult => JobResult.Created.Date).Select(JobResult => new { Date = JobResult.Key, Count = JobResult.Count() }).ToList();
+
+        _config1 = new BarChartConfig()
+            {
+                Options = new Options()
+                {
+                    Responsive = true,
+                    MaintainAspectRatio = false,
+                    Plugins = new Plugins()
+                    {
+                        Legend = new Legend()
+                        {
+                            Display = true,
+                            Position = LegendPosition.Left
+                        }
+                    },
+                    Scales = new Dictionary<string, Axis>()
+                    {
+                        {
+                            Scales.XAxisId, new Axis()
+                            {
+                                Stacked = true,
+                                Ticks = new Ticks()
+                                {
+                                    MaxRotation = 0,
+                                    MinRotation = 0,
+                                    AutoSkip = true
+                                }
+                            }
+                        },
+                        {
+                            Scales.YAxisId, new Axis()
+                            {
+                                Stacked = true
+                                
+                            }
+                        }
+                    }
+                }
+            };
+        
+        _config1.Data.Labels = new List<string>();
+        for (DateTime d = DateTime.Now.AddDays(-30); d < DateTime.Now; d = d.AddDays(1))
+        {
+            _config1.Data.Labels.Add(d.Date.ToShortDateString());
+            if (JobStatusTotal.Where(j => j.Date.Date == d.Date.Date).Count() == 0)
+            {
+                JobStatusTotal.Add(new { Date = d.Date, Count = 0 });
+            }
+            if (JobStatusSuccess.Where(j => j.Date.Date == d.Date.Date).Count() == 0)
+            {
+                JobStatusSuccess.Add(new { Date = d.Date, Count = 0 });
+            }
+        }
+        _config1.Data.Datasets.Add(new BarDataset()
+            {
+                Label = "Success",
+                Data = JobStatusSuccess.OrderBy(j => j.Date).Select(j => (decimal?)Convert.ToDecimal(j.Count)).ToList(),
+                BackgroundColor = ChartSettings.ChartColorPrimary
+            });
+        _config1.Data.Datasets.Add(new BarDataset()
+            {
+                Label = "Total",
+                Data = JobStatusTotal.OrderBy(j => j.Date).Select(j => (decimal?)Convert.ToDecimal(j.Count)).ToList(),
+                BorderColor = ChartSettings.ChartColorSecondary,
+                Order = 1,
+                Type = "line"
+            });
+    }
+}
