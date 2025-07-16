@@ -1,5 +1,7 @@
 # ShieldChecker
 
+<img src="LogoDesign/kit/Facebook-Kit.jpg" width="100%" />
+
 ShieldChecker is a comprehensive community solution that allows testing established detections with Microsoft Defender XDR end-to-end. Unlike traditional approaches that simply replay logs, ShieldChecker actually executes tests and verifies that expected detections are triggered, providing real-world validation of your security controls.
 More information can be found on the [Homepage](https://www.shieldchecker.ch).
 
