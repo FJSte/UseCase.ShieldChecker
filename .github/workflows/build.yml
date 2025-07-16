@@ -28,6 +28,6 @@ jobs:
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "Deploy/Install.zip"
-        tag: ${{ github.ref }}
-        name: "ShieldChecker ${{ github.ref }}"
+        tag: ${{ inputs.version }}
+        name: "ShieldChecker ${{ inputs.version }}"
         bodyFile: "CHANGELOG.MD"
