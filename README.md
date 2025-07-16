@@ -73,8 +73,8 @@ SupportiveContent/ # Additional resources and documentation
 ## Documentation
 
 - [Homepage](https://www.shieldchecker.ch)
-- [Deployment Guide](Deployment.md) - Detailed deployment instructions
-- [Documentation](Documentation.md) - Comprehensive project documentation
+- [Deployment Guide](docs/Deployment.md) - Detailed deployment instructions
+- [Documentation](docs/Documentation.md) - Comprehensive project documentation
 - [Changelog](CHANGELOG.md) - Version history and updates
 
 ## Contributing
@@ -91,8 +91,8 @@ Please see our [issue templates](.github/ISSUE_TEMPLATE/) for bug reports and fe
 
 For issues and support:
 - Check existing [GitHub Issues](.github/ISSUE_TEMPLATE/)
-- Review the [Documentation](Documentation.md)
-- Consult the [Deployment Guide](Deployment.md)
+- Review the [Documentation](docs/Documentation.md)
+- Consult the [Deployment Guide](docs/Deployment.md)
 
 There is no support or guaranteed answer. The project is a community project and maintained as a hobby.
 
