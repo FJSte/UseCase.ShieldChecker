@@ -1,7 +1,11 @@
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: 'v0.0.0'
+        type: string
 
 permissions:
   id-token: write
