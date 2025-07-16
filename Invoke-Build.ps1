@@ -150,5 +150,12 @@ Copy-item -Path "$PSScriptRoot/Invoke-UpdateWebAppAndSql.ps1" -Destination "$PSS
 
 # Copy Deployment Script
 Write-Host "Generate Latest Version in Deploy folder" -ForegroundColor Green
-Remove-Item -Path "$PSScriptRoot/Deploy/Latest/*" -Recurse -Force
+if(!(Test-Path -Path "$PSScriptRoot/Deploy/Latest")){
+    New-Item -Path "$PSScriptRoot/Deploy" -Name "Latest" -ItemType Directory -Force | Out-Null
+    Write-Host "- Created Latest folder: $PSScriptRoot/Deploy/Latest"
+} else {
+    Write-Host "- Latest folder already exists: $PSScriptRoot/Deploy/Latest"
+    Remove-Item -Path "$PSScriptRoot/Deploy/Latest/*" -Recurse -Force
+}
 Copy-item -Path "$PSScriptRoot/Deploy/$BuildName/*" -Destination "$PSScriptRoot/Deploy/Latest" -Recurse -Force
+Compress-Archive -Path "$PSScriptRoot/Deploy/Latest/*"  -DestinationPath "$PSScriptRoot/Deploy/Install.zip" -Force

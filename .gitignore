@@ -400,5 +400,5 @@ FodyWeavers.xsd
 # Local Testfile
 Invoke-BuildAndDeploy.ps1
 Invoke-BuildAndDeploySimple.ps1
-Deploy/20*
-src\VmDsc\DomainController\additionaldata\Executor\ScExecutorSvc.exe
+Deploy/*
+src/VmDsc/DomainController/additionaldata/Executor/ScExecutorSvc.exe
