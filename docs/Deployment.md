@@ -50,7 +50,7 @@ Select-AzSubscription -SubscriptionId "<YourSubscriptionId>"
                     -CreateRessourceGroupIfNotExistsLocation "<Location>"
 ```
 
-This script will deploy all required resources, including the web application and database. Note all used parameters so you can update it in the future to uptdate to a newer version without issues. When the script finished you can browse to the newly created webapp and start the first run wizard to complete the setup. 
+This script will deploy all required resources, including the web application and database. The process takes 15 to 30 minutes. Document all used parameters so you can update it in the future to uptdate to a newer version without issues. When the script finished you can browse to the newly created webapp and start the first run wizard to complete the setup. 
 
 ### First Run Wizard
 
