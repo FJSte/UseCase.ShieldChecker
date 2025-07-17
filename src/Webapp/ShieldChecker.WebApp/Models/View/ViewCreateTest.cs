@@ -13,10 +13,5 @@ namespace ShieldChecker.WebApp.Models.View
         public string MitreTechnique { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(256)]
-        [Display(Name = "Expected alert title")]
-        public string ExpectedAlertTitle { get; set; } = string.Empty;
-
     }
 }

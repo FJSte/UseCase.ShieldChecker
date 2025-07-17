@@ -45,11 +45,12 @@ namespace ShieldChecker.WebApp.Pages.Tests
 
             var Test = _context.Add(new ShieldChecker.WebApp.Models.Db.TestDefinition());
             Test.CurrentValues.SetValues(TestVm);
+            Test.Entity.ExpectedAlertTitle = "Unknown";
             Test.Entity.Created = DateTime.UtcNow;
             Test.Entity.Modified = DateTime.UtcNow;
-            Test.Entity.ScriptTest = "";
-            Test.Entity.ScriptCleanup = "";
-            Test.Entity.ScriptPrerequisites = "";
+            Test.Entity.ScriptTest = "Write-Host \"Start Main Script\"";
+            Test.Entity.ScriptCleanup = "Write-Host \"Start Cleanup\"";
+            Test.Entity.ScriptPrerequisites = "Write-Host \"Start Prerquisites\"";
             Test.Entity.OperatingSystem = Models.Db.OperatingSystem.Windows;
             Test.Entity.ExecutorSystemType = ExecutorSystemType.Worker;
             Test.Entity.ExecutorUserType = ExecutorUserType.System;
