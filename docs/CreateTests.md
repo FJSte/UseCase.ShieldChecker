@@ -1,67 +1,166 @@
-# Manage Tests
+# Test Management Guide
 
-## Create Test
+This guide covers creating, editing, and managing security tests in ShieldChecker to validate Microsoft Defender XDR detections.
 
-1. Create a first test starts with navigating to the Tests section of the ShieldChecker Portal. Above the list you can click on "New Test".
+## Overview
+
+ShieldChecker tests are designed to:
+- Execute real security scenarios against your test environment
+- Validate that Microsoft Defender XDR detections are working correctly
+- Provide comprehensive coverage across different attack techniques
+- Support both Windows and Linux environments
+
+## Creating a New Test
+
+### Step 1: Navigate to Test Creation
+
+1. Access the Tests section of the ShieldChecker Portal
+2. Click on "New Test" above the test list to begin creating a new test
+
     ![Test List](img/ShieldChecker-CreateTest-01.png)
 
-2. On the first page you have to specify some metadata of the test. In my example I use the following:
-    - *Name:* Port Scan against Domain Controller<br />_It's recommended to think about a naming strategy in your environment. It's possible to describe what the test is doing or if you create one detection per Defender Custom Detection then you can also use the title of the detection._
-    - *MITRE Technique:* T1046
-    - *Description:* This test is getting a domain controller IP and is executing a port scan with plain PowerShell commands.
+### Step 2: Configure Test Metadata
 
-    ![Create Test](img/ShieldChecker-CreateTest-02.png)
+On the first page, specify the essential metadata for your test. Consider the following example configuration:**Test Metadata Fields:**
+- **Name:** Port Scan against Domain Controller  
+  *Best Practice: Develop a consistent naming strategy. Use descriptive names that clearly indicate the test's purpose, or align with your custom detection titles.*
+  
+- **MITRE Technique:** T1046 (Network Service Discovery)  
+  *Best Practice: Always map tests to relevant MITRE ATT&CK techniques for better categorization and reporting.*
+  
+- **Description:** This test performs network reconnaissance by executing a port scan against the domain controller using PowerShell commands to validate network discovery detection capabilities.
 
-3. As soon the metadata is saved you will see the full edit Test page. 
+    ![Create Test - Metadata](img/ShieldChecker-CreateTest-02.png)
 
-    - *Expected alert title (Comma seperated if multiple):* Unknwon<br />If you want to test a specific detection, then it's recommended that you specify the specific Alert title only. If you want to test in general then you can specify all alert titles which are thrown after a first run. 
-    - *Prerequisites/Main/CLeanup Script:* <br /> 
-    ```powershell
-$target=([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().DomainControllers[0])
-$ports=1..65535
+### Step 3: Configure Test Execution Settings
 
-foreach ($port in $ports)
-{
-  if(Test-Connection -BufferSize 32 -Count 1 -Quiet -ComputerName $target)
-  {
-    Try
-    {
-      $socket = new-object System.Net.Sockets.TcpClient($ip, $port)
-      If($socket.Connected)
-      {
-        "[+] $target listening to port $port"
-        $socket.Close() 
-      }
+After saving the metadata, you'll access the complete test configuration page with advanced settings:
+    ![Create Test - Configuration Overview](img/ShieldChecker-CreateTest-03.png)
+    ![Create Test - Execution Settings](img/ShieldChecker-CreateTest-04.png)
+    ![Create Test - Script Configuration](img/ShieldChecker-CreateTest-05.png)
+
+#### Detection Configuration
+- **Expected Alert Title (Comma separated if multiple):** Unknown  
+  *Configure this field based on your testing strategy:*
+  - For specific detection testing: Specify exact alert titles you expect
+  - For general testing: Use "Unknown" initially, then update after first execution with actual alert titles generated
+
+#### Environment Configuration
+- **Operating System:** Windows | Linux  
+  *Select the target OS for test execution. Windows systems are automatically domain-joined.*
+
+- **Executor System Type:** Worker | Domain Controller  
+  - **Worker:** Creates dedicated VMs for test execution, allows parallel execution
+  - **Domain Controller:** Executes tests directly on the DC with timeout-based completion
+
+- **Executor User Type:** System | Local Administrator | Domain Administrator | Domain User
+
+#### Test Scripts Configuration
+
+Configure the three script phases for comprehensive test execution:
+
+**Prerequisites Script:** Setup and preparation code  
+**Main Script:** Core test execution logic  
+**Cleanup Script:** Post-test cleanup and restoration
+
+### Step 4: Example Test Script
+
+Here's a complete example of a port scanning test whch can be used as main script:
+
+```powershell
+# Prerequisites Script (if needed)
+# Setup any required dependencies or configurations
+
+# Main Script - Port Scan Test
+$target = ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain().DomainControllers[0])
+$ports = 1..1024  # Scanning first 1024 ports for faster execution
+
+Write-Host "Starting port scan against: $target"
+
+foreach ($port in $ports) {
+    if (Test-Connection -BufferSize 32 -Count 1 -Quiet -ComputerName $target) {
+        try {
+            $socket = New-Object System.Net.Sockets.TcpClient($target, $port)
+            if ($socket.Connected) {
+                Write-Host "[+] $target listening on port $port" -ForegroundColor Green
+                $socket.Close()
+            }
+        }
+        catch {
+            Write-Host "[-] $target port $port appears closed" -ForegroundColor Red
+        }
     }
-    Catch
-    {
-      "[-] $target port $port appears closed"
-    }
-  }
 }
-    ```
-    - *OperatingSystem:* Windows <br /> You can choose between Windows and Linux. The WIndows System is joined automatically to the domain.
-    - *ExecutorSystemType:* Worker <br />You can choose between Worker and Domain Controller. In case you choose Worker a dedicated VM is created and the test executed on it. When choosing the Domain Controller as executer then the test is executed on the DC and the system is waiting until the timeout is reached or an Alert is detected. When choosing worker then multiple parallle workers can be spin up, depending on your configuration or Azure limits (CPU Cores).
-    - *ExecutorUserType:" It's possible to run the test in different user context. The default is system which has full controll over the system.
-    When finished click on *Safe and Close*. Test the execution by following the [execute test manual](/docs/RunAndScheduleTests.md).
 
-    ![Create Test](img/ShieldChecker-CreateTest-03.png)
-    ![Create Test](img/ShieldChecker-CreateTest-04.png)
-    ![Create Test](img/ShieldChecker-CreateTest-05.png)
+Write-Host "Port scan completed"
 
+```
 
-## Edit Tests
+### Step 5: Save and Validate
 
-1. Edit a test starts with navigating to the Tests section of the ShieldChecker Portal.
-2. Search for your test by using the search bar above the test list.
+1. Click "Save and Close" to complete test creation
+2. Test the execution by following the [Run and Schedule Tests Guide](RunAndScheduleTests.md)
+
+## Managing Existing Tests
+
+### Editing Tests
+
+1. Navigate to the Tests section in the ShieldChecker Portal
+2. Use the search bar to locate your specific test
+3. Click on the test name to open the edit interface
+
     ![List Tests](img/ShieldChecker-ListTests-01.png)
 
-## Restore old Test Version
+### Search and Filter Options
 
-Each time you edit a test a new revision is created and you have the ability to restore an old version.
+- **Search by Name:** Use the search bar for quick test location
 
-1. To restore and old version of a test navigate to the Tests section of the ShieldChecker Portal.
-2. Search for your test by using the search bar above the test list and click on the history icon.
-    ![List Tests](img/ShieldChecker-ListTests-01.png)
-3. The Histroy page is shown and you can restore an old version. When selecting restore the actual test is overwritten with the old values.
-    ![Restore Test](img/ShieldChecker-RestoreOldVersion-01.png)
+## Version Management and History
+
+### Restoring Previous Test Versions
+
+ShieldChecker automatically creates revisions each time you edit a test, providing complete version history:
+
+1. Navigate to the Tests section
+2. Locate your test using the search functionality  
+3. Click on the history icon next to the test name
+
+    ![List Tests - History Access](img/ShieldChecker-ListTests-01.png)
+
+4. Review available versions and select the desired revision to restore
+
+    ![Restore Test Version](img/ShieldChecker-RestoreOldVersion-01.png)
+
+**Important:** Restoring a previous version will overwrite the current test configuration with the selected historical version.
+
+## Best Practices for Test Development
+
+### Naming Conventions
+- Use descriptive, consistent naming patterns
+- Include MITRE technique IDs when applicable
+- Consider organizational naming standards
+
+### Script Development
+- Keep scripts focused on single techniques
+- Include proper error handling
+- Add logging for debugging purposes
+- Test scripts in isolation before deployment
+
+### Detection Validation
+- Start with "Unknown" alert titles for new tests
+- Update expected alerts after initial execution
+- Regularly review and update detection expectations
+- Validate alerts match actual security events
+
+### Environment Considerations
+- Use Worker VMs for potentially disruptive tests
+- Reserve Domain Controller execution for specific scenarios
+- Consider resource limitations and parallel execution limits in Azure Subscription
+- Plan for cleanup and state restoration, especially on Domain Controller
+
+## Troubleshooting Common Issues
+
+### Test Execution Failures
+- Verify script syntax and PowerShell compatibility
+- Check user permissions for the selected executor type
+- Validate network connectivity and domain dependencies
