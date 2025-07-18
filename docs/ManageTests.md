@@ -98,8 +98,9 @@ Write-Host "Port scan completed"
 
 ### Step 5: Save and Validate
 
-1. Click "Save and Close" to complete test creation
-2. Test the execution by following the [Run and Schedule Tests Guide](RunAndScheduleTests.md)
+1. Check if you marked the test as Enabled
+2. Click "Save and Close" to complete test creation
+3. Test the execution by following the [Run and Schedule Tests Guide](ManageJobs.md)
 
 ## Managing Existing Tests
 
@@ -164,3 +165,14 @@ ShieldChecker automatically creates revisions each time you edit a test, providi
 - Verify script syntax and PowerShell compatibility
 - Check user permissions for the selected executor type
 - Validate network connectivity and domain dependencies
+
+## Support and Additional Resources
+
+### Documentation Links
+- [Contents](Documentation.md) - Documentation Index
+
+### Getting Help - Community Support
+- [GitHub Issues](https://github.com/ThomasKur/UseCase.ShieldChecker/issues) - Report bugs and request features
+- [Project Homepage](https://www.shieldchecker.ch) - Latest news and updates
+
+> **Note:** ShieldChecker is a community-driven project maintained as a hobby. While we strive to help, there are no guaranteed response times or support SLAs.
