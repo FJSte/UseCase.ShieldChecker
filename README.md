@@ -91,8 +91,8 @@ Please see our [issue templates](.github/ISSUE_TEMPLATE/) for bug reports and fe
 
 For issues and support:
 - Check existing [GitHub Issues](.github/ISSUE_TEMPLATE/)
-- Review the [Documentation](docs/Documentation.md)
-- Consult the [Deployment Guide](docs/Deployment.md)
+- Review the [Documentation](/docs/Documentation.md)
+- Consult the [Deployment Guide](/docs/Deployment.md)
 
 There is no support or guaranteed answer. The project is a community project and maintained as a hobby.
 
