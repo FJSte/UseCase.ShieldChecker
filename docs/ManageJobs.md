@@ -64,6 +64,15 @@ Sometimes tests fail due to environmental issues, configuration changes, or temp
 
 The Auto Scheduler provides automation capabilities for running security tests on regular intervals, ensuring continuous validation of your security controls.
 
+### Create new Schedule
+
+1. Navigate to the **Scheduler** page
+![Navigation](/docs/img/ShieldChecker-Scheduler-01.png)
+2. Create a new or edit an existing Schedule
+![Auto Scheduler List](/docs/img/ShieldChecker-Scheduler-02.png)
+3. Configure the Schedule according to your needs
+![Scheduler Configuration Options](/docs/img/ShieldChecker-Scheduler-03.png)
+
 ### Scheduler Configuration Options
 
 #### Basic Scheduler Settings
@@ -127,9 +136,11 @@ Effective job monitoring is crucial for understanding test execution success and
 
 1. **Navigate to the Jobs page** in the ShieldChecker portal
 2. **Use search and filter capabilities** to locate specific jobs
-![Job List Overview](img/ShieldChecker-Jobs-01.png)
+![Job List Overview](/docs/img/ShieldChecker-Jobs-01.png)
 3. Click on the **Job ID** or **view icon** to access comprehensive job details:
-![Job Details Interface](img/ShieldChecker-JobDetails-01.png)
+![Job Details List](/docs/img/ShieldChecker-JobDetails-01.png)
+4. Review the Job output
+![Job Details](/docs/img/ShieldChecker-JobDetails-02.png)
 
 
 ### Job Cancellation
@@ -174,6 +185,9 @@ Toggle the Review Mode option and save settings:
 
 ![Review Mode Configuration](img/ShieldChecker-Settings-02.png)
 
+As soon the next Job ends with an error, then the status will be set to Review Pending:
+![Review Pending](/docs/img/ShieldChecker-Jobs-ReviewMode-01.png)
+
 #### Review Mode Operations
 
 **When Review Mode is Enabled:**
@@ -181,7 +195,9 @@ Toggle the Review Mode option and save settings:
 2. **Automatic RDP file generation** for easy VM access
 3. **Public IP assignment** for external connectivity
 4. **Unlimited timeout period** for investigation which increases costs and blocks the job queue by consuming one of the execution slots.
-5. **When the review Status is reached** then a dedicated Review Options is available, allowing you to document the review findings and set manually the Job Result.
+5. **When the review Status is reached** then a dedicated Review Options is available in the Job List and Detail Page, allowing you to document the review findings and set manually the Job Result.
+
+![Review Pending](/docs/img/ShieldChecker-Jobs-ReviewMode-02.png)
 
 ## Job Status and Results Reference
 
