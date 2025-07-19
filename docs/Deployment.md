@@ -163,12 +163,7 @@ The First Run Wizard guides you through the essential configuration steps requir
 
 ![First Run Wizard - Permission Setup](img/ShieldChecker-First-run-Wizard-04.png)
 
-**Automatic Permission Verification:** This step validates that all required Azure permissions were granted correctly during deployment.
-
-**If permissions are missing:**
-- Review the error details provided
-- Run the permission grant script: `./Invoke-GrantPermissions.ps1`
-- Re-run the permission check in the wizard
+**Automatic Permission Verification:** This step validates that all required Azure permissions were granted correctly during deployment. If missing then a script is provided for fixing the problem.
 
 **Common Permission Requirements:**
 - Microsoft Graph API permissions for Entra ID integration
